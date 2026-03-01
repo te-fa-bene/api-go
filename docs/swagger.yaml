@@ -1,0 +1,27 @@
+basePath: /api/v1
+definitions:
+  handler.HealthResponse:
+    properties:
+      status:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: MVP for a restaurant API
+  title: Te fa Bene API
+  version: "0.1"
+paths:
+  /health:
+    get:
+      description: Check if the API is online
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.HealthResponse'
+      summary: Healthcheck
+      tags:
+      - system
+swagger: "2.0"
