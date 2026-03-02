@@ -5,12 +5,55 @@ definitions:
       status:
         type: string
     type: object
+  handler.LoginResponse:
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      token_type:
+        type: string
+    type: object
+  handler.MeResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+      store_id:
+        type: string
+    type: object
 info:
   contact: {}
   description: MVP for a restaurant API
   title: Te fa Bene API
   version: "0.1"
 paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.LoginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login
+      tags:
+      - auth
   /health:
     get:
       description: Check if the API is online
@@ -24,4 +67,25 @@ paths:
       summary: Healthcheck
       tags:
       - system
+  /me:
+    get:
+      description: Get user information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.MeResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Me
+      tags:
+      - auth
 swagger: "2.0"
