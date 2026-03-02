@@ -28,7 +28,7 @@ help:
 	@echo "  make migrate-up     - Apply migrations (goose)"
 	@echo "  make migrate-down   - Reverts 1 migration"
 	@echo "  make migrate-status - Migration status"
-	@echo "  make seed           - Runs seeds (psql)"
+	@echo "  make seed           - Runs seeds"
 	@echo "  make run            - Runs API locally (go run)"
 	@echo "  make build          - Builds locally"
 	@echo "  make test           - Tests"
@@ -93,9 +93,5 @@ migrate-new:
 # ---------- Seeds ----------
 .PHONY: seed
 seed:
-	@echo "Seeding database using $(SEEDS_DIR)..."
-	@for f in $(SEEDS_DIR)/*.sql; do \
-	  [ -e "$$f" ] || { echo "No seed files found in $(SEEDS_DIR)"; exit 1; }; \
-	  echo "Running $$f"; \
-	  PGPASSWORD="$(DB_PASSWORD)" psql -h "$(DB_HOST)" -p "$(DB_PORT)" -U "$(DB_USER)" -d "$(DB_NAME)" -f "$$f"; \
-	done
+	@echo "Seeding database using ./cmd/seed/main.go..."
+	go run ./cmd/seed/main.go
